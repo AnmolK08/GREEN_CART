@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import User from "../models/user.model.js";
 
+
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -50,8 +51,8 @@ const register = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -98,8 +99,8 @@ const login = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log(error);
-    res.json({ success: false, message: "Error" });
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -132,4 +133,4 @@ const logout = async (req, res) => {
   }
 };
 
-export default { register, login, isAuth, logout };
+export { register, login, isAuth, logout };

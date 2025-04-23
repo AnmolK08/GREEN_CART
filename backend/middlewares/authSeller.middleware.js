@@ -21,9 +21,10 @@ const authSeller = (req ,res , next)=>{
         }
         
     } catch (error) {
+        console.log(error.message)
         res.json({
             sucess : false,
-            message : 'error.message'
+            message : error.message
         })
     }
 }

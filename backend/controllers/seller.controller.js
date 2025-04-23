@@ -66,4 +66,4 @@ const sellerLogout = async (req, res) => {
   }
 };
 
-export default { sellerLogin, isSellerAuth, sellerLogout };
+export { sellerLogin, isSellerAuth, sellerLogout };
