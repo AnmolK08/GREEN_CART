@@ -18,7 +18,7 @@ export const AppContextProvider = ({ children }) => {
   const fetchProducts = async () => {
     setProducts(dummyProducts);
   };
-  const addToCart = () => {
+  const addToCart = (itemId) => {
     let cartData = structuredClone(cartItems);
 
     if (cartData[itemId]) {
@@ -65,6 +65,7 @@ export const AppContextProvider = ({ children }) => {
     setShowUserLogin,
     products,
     currency,
+    cartItems,
     addToCart,
     updateCartItems,
     removeFromCart,
