@@ -12,14 +12,16 @@ import ProductDetails from "./pages/ProductDetails.jsx";
 import Cart from "./pages/Cart.jsx";
 import AddAddress from "./pages/AddAddress.jsx";
 import MyOrders from "./pages/MyOrders.jsx";
+import SellerLogin from "./components/seller/SellerLogin.jsx";
+import { SellerLayout } from "./pages/seller/SellerLayout.jsx";
 
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller");
-  const {showUserLogin} = useAppContext();
+  const {showUserLogin , isSeller} = useAppContext();
 
 
   return (
-    <div>
+    <div className="text-default min-h-screen text-gray-700 bg-white">
       {isSellerPath ? null : <Navbar />}
       {showUserLogin ? <LoginPage/> : null }
 
@@ -36,6 +38,8 @@ function App() {
           <Route path="/cart" element={<Cart/>} />
           <Route path="/add-address" element={<AddAddress/>} />
           <Route path="/my-orders" element={<MyOrders/>} />
+          <Route path="/seller" element={isSeller ? <SellerLayout/> : <SellerLogin/>} />
+
         </Routes>
       </div>
       {!isSellerPath && <Footer/>}
