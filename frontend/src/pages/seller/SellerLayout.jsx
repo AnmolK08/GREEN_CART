@@ -1,7 +1,7 @@
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 
 export const SellerLayout = () => {
   const { isSeller, setIsSeller } = useAppContext();
@@ -39,8 +39,8 @@ export const SellerLayout = () => {
       </div>
 
       <div className="flex">
-        <div className="md:w-64 w-16 border-r h-[550px] text-base border-gray-300 pt-4 flex flex-col transition-all duration-300">
-          {sidebarLinks.map((item) => (
+        <div className="md:w-64 w-16 border-r h-[95vh] text-base border-gray-300 pt-4 flex flex-col">
+          {sidebarLinks.map((item , index) => (
             <NavLink
               to={item.path}
               key={index}

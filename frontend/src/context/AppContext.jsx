@@ -10,7 +10,7 @@ export const AppContextProvider = ({ children }) => {
 
   const navigate = useNavigate();
   const [user, setuser] = useState(null);
-  const [isSeller, setIsSeller] = useState(null);
+  const [isSeller, setIsSeller] = useState(true);
   const [showUserLogin, setShowUserLogin] = useState(false);
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
