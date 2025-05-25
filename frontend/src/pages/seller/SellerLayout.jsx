@@ -2,12 +2,23 @@ import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import { assets } from "../../assets/assets";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export const SellerLayout = () => {
-  const { isSeller, setIsSeller } = useAppContext();
+  const { axios, navigate } = useAppContext();
 
-  const logout = () => {
-    setIsSeller(false);
+  const logout = async () => {
+    try {
+      const { data } = await axios.get("/api/seller/logout");
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/");
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   const sidebarLinks = [
@@ -40,7 +51,7 @@ export const SellerLayout = () => {
 
       <div className="flex">
         <div className="md:w-64 w-16 border-r h-[95vh] text-base border-gray-300 pt-4 flex flex-col">
-          {sidebarLinks.map((item , index) => (
+          {sidebarLinks.map((item, index) => (
             <NavLink
               to={item.path}
               key={index}
@@ -52,13 +63,13 @@ export const SellerLayout = () => {
                                 : "hover:bg-gray-100/90 border-white"
                             }`}
             >
-              <img src={item.icon} alt=""  className="w-7 h-7"/>
+              <img src={item.icon} alt="" className="w-7 h-7" />
               <p className="md:block hidden text-center">{item.name}</p>
             </NavLink>
           ))}
         </div>
 
-        <Outlet/>
+        <Outlet />
       </div>
     </>
   );
