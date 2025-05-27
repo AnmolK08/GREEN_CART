@@ -38,7 +38,7 @@ const LoginPage = () => {
       onClick={() => {
         setShowUserLogin(false);
       }}
-      className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center text-sm text-gray-600 bg-black/50"
+      className="fixed top-0 bottom-0 left-0 right-0 flex items-center justify-center text-sm text-gray-600 bg-black/50 z-10"
     >
       <form
         onSubmit={(e) => onSumbitHandler(e)}

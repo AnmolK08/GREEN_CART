@@ -43,10 +43,10 @@ const sellerLogin = async (req, res) => {
 
 const isSellerAuth = async (req, res) => {
   try {
-    return res.json({ sucess: true });
+    return res.json({ success: true });
   } catch (error) {
     console.log(error.message);
-    res.json({ sucess: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
@@ -59,10 +59,10 @@ const sellerLogout = async (req, res) => {
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
-    return res.json({ sucess: true, message: "Logged Out" });
+    return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
     console.log(error.message);
-    res.json({ sucess: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 

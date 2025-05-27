@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { assets, categories } from "../../assets/assets";
-import axios from "axios";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 
@@ -20,7 +19,7 @@ const AddProduct = () => {
 
       const productData = {
         name,
-        description: description.split("/n"),
+        description: description.split("\n"),
         category,
         price,
         offerPrice,
@@ -33,6 +32,7 @@ const AddProduct = () => {
       }
 
       const { data } = await axios.post("/api/product/add", formData);
+
       if (data.success) {
         toast.success(data.message);
         setName("");
@@ -64,7 +64,7 @@ const AddProduct = () => {
                 <label key={index} htmlFor={`image${index}`}>
                   <input
                     onChange={(e) => {
-                      const updatedFiles = { ...files };
+                      const updatedFiles = [...files];
                       updatedFiles[index] = e.target.files[0];
                       setFiles(updatedFiles);
                     }}

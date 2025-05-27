@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const MyOrders = () => {
   const [myOrders, setMyOrders] = useState([]);
-  const { currency, axios } = useAppContext();
+  const { currency, axios , user} = useAppContext();
 
   const fetchMyOrders = async () => {
     try {

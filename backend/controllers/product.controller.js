@@ -1,4 +1,6 @@
 import Product from "../models/product.model.js";
+import cloudinary from "../config/cloudinary.js";
+
 
 // Add Product : /api/product/add
 export const addProduct = async (req, res) => {
@@ -16,6 +18,8 @@ export const addProduct = async (req, res) => {
     );
 
     await Product.create({ ...productData, image: imageUrl });
+    res.json({ success: true, message: "Product added successfully." });
+
   } catch (error) {
     console.log(error.message);
     return res.json({ success: false, message: error.message });
@@ -25,8 +29,8 @@ export const addProduct = async (req, res) => {
 // Get Product : /api/product/list
 export const productList = async (req, res) => {
   try {
-    const products = Product.find({});
-    res.json({ sucess: true, products });
+    const products = await Product.find({});
+    res.json({ success: true, products });
   } catch (error) {
     console.log(error.message);
     return res.json({ success: false, message: error.message });
@@ -37,8 +41,8 @@ export const productList = async (req, res) => {
 export const productById = async (req, res) => {
   try {
     const { id } = req.body;
-    const product = Product.findById(id);
-    res.json({ sucess: true, product });
+    const product = await Product.findById(id);
+    res.json({ success: true, product });
   } catch (error) {
     console.log(error.message);
     return res.json({ success: false, message: error.message });
@@ -50,7 +54,7 @@ export const changeStock = async (req, res) => {
   try {
     const { id, inStock } = req.body;
     await Product.findByIdAndUpdate(id, { inStock });
-    res.json({ sucess: true, message: "Stock Updated successfully." });
+    res.json({ success: true, message: "Stock Updated successfully." });
   } catch (error) {
     console.log(error.message);
     return res.json({ success: false, message: error.message });

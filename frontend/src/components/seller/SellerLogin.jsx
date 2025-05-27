@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 const SellerLogin = () => {
   const { isSeller, setIsSeller, navigate, axios } = useAppContext();
-  const { email, setEmail } = useState("");
+  const [ email, setEmail ] = useState("");
   const [password, setPassword] = useState("");
 
   const onSumbitHandler = async (e) => {

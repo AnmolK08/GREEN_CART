@@ -127,7 +127,7 @@ export const AppContextProvider = ({ children }) => {
   useEffect(() => {
     const updateCart = async () => {
       try {
-        const { data } = await axios.get("/api/cart/update", { cartItems });
+        const { data } = await axios.post("/api/cart/update", { cartItems });
         if (!data.success) {
           toast.error(data.message);
         }
@@ -144,7 +144,7 @@ export const AppContextProvider = ({ children }) => {
   const value = {
     navigate,
     user,
-    setuser,
+    setUser,
     isSeller,
     setIsSeller,
     showUserLogin,

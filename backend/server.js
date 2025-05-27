@@ -39,7 +39,6 @@ app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
 
-connectCloudinary();
 connectDB();
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
