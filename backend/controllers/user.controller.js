@@ -3,7 +3,6 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import User from "../models/user.model.js";
 
-
 const register = async (req, res) => {
   const { name, email, password } = req.body;
   try {
@@ -108,7 +107,7 @@ const login = async (req, res) => {
 
 const isAuth = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.userId;
     const user = await User.findById(userId).select("-password");
     return res.json({ success: true, user });
   } catch (error) {

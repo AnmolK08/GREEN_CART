@@ -6,7 +6,9 @@ import stripe from "stripe";
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
   try {
-    const { userId, items, address } = req.body;
+    const { userId } = req.userId;
+    const { items, address } = req.body;
+
     if (!address || items.length === 0) {
       return res.json({ success: false, message: "Invalid Data" });
     }
@@ -37,7 +39,8 @@ export const placeOrderCOD = async (req, res) => {
 // Place Order Stripe : /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
   try {
-    const { userId, items, address } = req.body;
+    const { userId } = req.userId;
+    const { items, address } = req.body;
     const { origin } = req.headers;
 
     if (!address || items.length === 0) {
@@ -124,58 +127,54 @@ export const stripWebhooks = async (req, res) => {
 
   // Handle the event
   switch (event.type) {
-    case "payment_intent.succeeded":
-      {
-        const paymentIntent = event.data.object;
-        const paymentIntentId = paymentIntent.id;
+    case "payment_intent.succeeded": {
+      const paymentIntent = event.data.object;
+      const paymentIntentId = paymentIntent.id;
 
-        //Getting session metadata
+      //Getting session metadata
 
-        const session = await stripeInstance.checkout.sessions.list({
-          payment_intent: paymentIntentId,
-        });
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
 
-        const { orderId, userId } = session.data[0].metadata;
+      const { orderId, userId } = session.data[0].metadata;
 
-        // mark payment as paid
-        await Order.findByIdAndUpdate(orderId, { isPaid: true });
+      // mark payment as paid
+      await Order.findByIdAndUpdate(orderId, { isPaid: true });
 
-        // clear user cart
-        await User.findByIdAndUpdate(userId, { cartItems: {} });
+      // clear user cart
+      await User.findByIdAndUpdate(userId, { cartItems: {} });
 
-        break;
-      }
+      break;
+    }
 
-      case "payment_intent.failed":
-      {
-        const paymentIntent = event.data.object;
-        const paymentIntentId = paymentIntent.id;
+    case "payment_intent.failed": {
+      const paymentIntent = event.data.object;
+      const paymentIntentId = paymentIntent.id;
 
-        //Getting session metadata
+      //Getting session metadata
 
-        const session = await stripeInstance.checkout.sessions.list({
-          payment_intent: paymentIntentId,
-        });
+      const session = await stripeInstance.checkout.sessions.list({
+        payment_intent: paymentIntentId,
+      });
 
-        const { orderId } = session.data[0].metadata;
-        await Order.findByIdAndDelete(orderId);
-        break;
-
-      }
+      const { orderId } = session.data[0].metadata;
+      await Order.findByIdAndDelete(orderId);
+      break;
+    }
 
     default:
-      console.error(`Unhandled event type ${event.type}`)
+      console.error(`Unhandled event type ${event.type}`);
       break;
   }
 
-  res.json({received : true});
-  
+  res.json({ received: true });
 };
 
 // Get orders by user Id: /api/order/user
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.body;
+    const { userId } = req.userId;
     const orders = Order.find({
       userId,
       $or: [{ paymentType: "COD" }, { isPaid: true }],
