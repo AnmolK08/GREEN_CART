@@ -28,7 +28,7 @@ const AddProduct = () => {
       const formData = new FormData();
       formData.append("productData", JSON.stringify(productData));
       for (let i = 0; i < files.length; i++) {
-        formData.append("images", files[i]);
+        formData.append("image", files[i]);
       }
 
       const { data } = await axios.post("/api/product/add", formData);
