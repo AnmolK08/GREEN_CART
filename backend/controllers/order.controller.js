@@ -6,7 +6,7 @@ import stripe from "stripe";
 // Place Order COD : /api/order/cod
 export const placeOrderCOD = async (req, res) => {
   try {
-    const { userId } = req.userId;
+    const userId = req.userId;
     const { items, address } = req.body;
 
     if (!address || items.length === 0) {
@@ -39,7 +39,7 @@ export const placeOrderCOD = async (req, res) => {
 // Place Order Stripe : /api/order/stripe
 export const placeOrderStripe = async (req, res) => {
   try {
-    const { userId } = req.userId;
+    const userId = req.userId;
     const { items, address } = req.body;
     const { origin } = req.headers;
 
@@ -174,7 +174,7 @@ export const stripWebhooks = async (req, res) => {
 // Get orders by user Id: /api/order/user
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.userId;
+    const userId = req.userId;
     const orders = Order.find({
       userId,
       $or: [{ paymentType: "COD" }, { isPaid: true }],

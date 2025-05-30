@@ -4,7 +4,7 @@ const authSeller = (req, res, next) => {
 
   if (!sellerToken) {
     return res.json({
-      sucess: false,
+      success: false,
       message: "Not Authorized",
     });
   }
@@ -14,14 +14,14 @@ const authSeller = (req, res, next) => {
       next();
     } else {
       return res.json({
-        sucess: false,
+        success: false,
         message: "Not Authorized",
       });
     }
   } catch (error) {
     console.log(error.message);
     res.json({
-      sucess: false,
+      success: false,
       message: error.message,
     });
   }

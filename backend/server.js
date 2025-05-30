@@ -40,6 +40,7 @@ app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
 
 connectDB();
+connectCloudinary();
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

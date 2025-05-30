@@ -4,7 +4,7 @@ const authUser = (req, res, next) => {
 
   if (!token) {
     return res.json({
-      sucess: false,
+      success: false,
       message: "Not Authorized",
     });
   }
@@ -14,7 +14,7 @@ const authUser = (req, res, next) => {
       req.userId = decodeToken.id;
     } else {
       return res.json({
-        sucess: false,
+        success: false,
         message: "Not Authorized",
       });
     }
@@ -22,7 +22,7 @@ const authUser = (req, res, next) => {
   } catch (error) {
     console.log(error.message);
     res.json({
-      sucess: false,
+      success: false,
       message: error.message,
     });
   }
