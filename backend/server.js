@@ -18,7 +18,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 1800;
 
-const allowedOrigins = ["http://localhost:5173"];
+const allowedOrigins = ["http://localhost:5173" , "https://green-cart-edvn.vercel.app"];
 
 app.post('/stripe', bodyParser.raw({ type: 'application/json' }), stripWebhooks);
 
