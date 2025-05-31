@@ -48,6 +48,7 @@ const register = async (req, res) => {
         name: user.name,
         email: user.email,
       },
+      message: "Registered Successfully",
     });
   } catch (error) {
     console.log(error.message);
@@ -96,6 +97,7 @@ const login = async (req, res) => {
         name: user.name,
         email: user.email,
       },
+      message: "Logged In Successfully",
     });
   } catch (error) {
     console.log(error.message);

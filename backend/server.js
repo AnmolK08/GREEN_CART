@@ -11,6 +11,7 @@ import addressRouter from "./routes/address.routes.js";
 import orderRouter from "./routes/order.routes.js";
 import connectCloudinary from "./config/cloudinary.js";
 import { stripWebhooks } from "./controllers/order.controller.js";
+import bodyParser from 'body-parser';
 
 dotenv.config();
 
@@ -19,7 +20,7 @@ const PORT = process.env.PORT || 1800;
 
 const allowedOrigins = ["http://localhost:5173"];
 
-app.post('/stripe' , express.raw({type: 'application/json'}) , stripWebhooks)
+app.post('/stripe', bodyParser.raw({ type: 'application/json' }), stripWebhooks);
 
 app.use(express.json());
 app.use(cookieParser());

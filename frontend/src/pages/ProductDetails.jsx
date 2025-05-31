@@ -67,6 +67,7 @@ const ProductDetails = () => {
                 .fill("")
                 .map((_, i) => (
                   <img
+                    key={i}
                     src={i < 4 ? assets.star_icon : assets.star_dull_icon}
                     className="md:w-4 w-3.5"
                   />
@@ -115,8 +116,10 @@ const ProductDetails = () => {
 
         <div className="flex flex-col items-center mt-20">
           <div className="flex flex-col items-center w-max">
-            <p className="text-3xl font-medium">Related Products</p>
-            <div className="w-20 h-0.5 bg-primary rounded-full mt-2"></div>
+          <div className='flex flex-col items-end w-max'>
+            <p className='text-2xl font-medium uppercase'>Related Products</p>
+            <div className='w-16 h-0.5 bg-primary rounded-full'></div>
+        </div>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6 mt-6 w-full">

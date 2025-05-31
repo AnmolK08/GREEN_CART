@@ -28,7 +28,7 @@ const AddAddress = () => {
     street: "",
     city: "",
     state: "",
-    zipcode: "",
+    zipCode: "",
     country: "",
     phone: "",
   });
@@ -123,7 +123,7 @@ const AddAddress = () => {
               <InputField
                 handleChange={handleChange}
                 address={address}
-                name="zipcode"
+                name="zipCode"
                 type="text"
                 placeholder="Zip Code"
               />

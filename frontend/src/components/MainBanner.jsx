@@ -28,7 +28,7 @@ const MainBanner = () => {
             Shop Now
             <img
               className="md:hidden transition group-focus:translate-x-1"
-              src={assets.white_arrow_icon}
+              src={assets.black_arrow_icon}
               alt="arrow"
             />
           </Link>
@@ -40,7 +40,7 @@ const MainBanner = () => {
             Explore deals
             <img
               className="transition group-focus:translate-x-1"
-              src={assets.white_arrow_icon}
+              src={assets.black_arrow_icon}
               alt="arrow"
             />
           </Link>

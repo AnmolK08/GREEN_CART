@@ -11,8 +11,8 @@ export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
   const currency = import.meta.env.VITE_CURRENCY;
-
   const navigate = useNavigate();
+
   const [user, setUser] = useState(null);
   const [isSeller, setIsSeller] = useState(null);
   const [showUserLogin, setShowUserLogin] = useState(false);
@@ -20,33 +20,26 @@ export const AppContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [searchQuery, setSearchQuery] = useState({});
 
-  //fetch seller status
   const fetchSeller = async () => {
     try {
       const { data } = await axios.get("/api/seller/is-auth");
-      if (data.success) {
-        setIsSeller(true);
-      } else {
-        setIsSeller(false);
-      }
-    } catch (error) {
+      setIsSeller(data.success);
+    } catch {
       setIsSeller(false);
     }
   };
 
-  //fetch auth status
   const fetchUser = async () => {
     try {
       const { data } = await axios.get("/api/user/is-auth");
-
       if (data.success) {
         setUser(data.user);
-        setCartItems(data.user.cartItems);
+        setCartItems(data.user.cartItems || {});
       } else {
         setUser(null);
       }
-    } catch (error) {
-      setUser(false);
+    } catch {
+      setUser(null);
     }
   };
 
@@ -64,56 +57,54 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const addToCart = (itemId) => {
-    let cartData = structuredClone(cartItems);
-
-    if (cartData[itemId]) {
-      cartData[itemId] += 1;
-    } else {
-      cartData[itemId] = 1;
-    }
-
-    setCartItems(cartData);
-    toast.success("Added to Cart");
-  };
-
-  const updateCartItems = (itemId, quantity) => {
-    let cartData = structuredClone(cartItems);
-    cartData[itemId] = quantity;
-    setCartItems(cartData);
-    toast.success("CartUpdated");
+    setCartItems((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart[itemId] = (updatedCart[itemId] || 0) + 1;
+      toast.success("Added to Cart");
+      return updatedCart;
+    });
   };
 
   const removeFromCart = (itemId) => {
-    let cartData = structuredClone(cartItems);
-
-    if (cartData[itemId]) {
-      cartData[itemId] -= 1;
-      if (cartData[itemId] === 0) {
-        delete cartData[itemId];
+    setCartItems((prevCart) => {
+      const updatedCart = { ...prevCart };
+      if (updatedCart[itemId]) {
+        updatedCart[itemId] -= 1;
+        if (updatedCart[itemId] <= 0) {
+          delete updatedCart[itemId];
+        }
+        toast.success("Removed from Cart");
       }
+      return updatedCart;
+    });
+  };
+
+  const updateCartItems = (itemId, quantity) => {
+    if (quantity <= 0) {
+      removeFromCart(itemId);
+      return;
     }
-    toast.success("Removed from Cart");
-    setCartItems(cartData);
+
+    setCartItems((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart[itemId] = quantity;
+      toast.success("Cart Updated");
+      return updatedCart;
+    });
   };
 
   const getCartCount = () => {
-    let totalCount = 0;
-
-    for (const item in cartItems) {
-      totalCount += cartItems[item];
-    }
-    return totalCount;
+    return Object.values(cartItems).reduce((acc, curr) => acc + curr, 0);
   };
 
   const getCartAmount = () => {
     let totalAmount = 0;
-    for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
-      if (cartItems[items] > 0) {
-        totalAmount += itemInfo.offerPrice * cartItems[items];
+    for (const itemId in cartItems) {
+      const product = products.find((p) => p._id === itemId);
+      if (product) {
+        totalAmount += product.offerPrice * cartItems[itemId];
       }
     }
-
     return Math.floor(totalAmount * 100) / 100;
   };
 
@@ -123,7 +114,6 @@ export const AppContextProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  //update Database Cart Items
   useEffect(() => {
     const updateCart = async () => {
       try {
@@ -167,6 +157,4 @@ export const AppContextProvider = ({ children }) => {
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
-export const useAppContext = () => {
-  return useContext(AppContext);
-};
+export const useAppContext = () => useContext(AppContext);

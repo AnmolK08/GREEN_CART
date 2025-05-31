@@ -33,6 +33,7 @@ const ProductCard = ({ product }) => {
               .fill("")
               .map((_, i) => (
                 <img
+                  key={i}
                   className="md:w-3.5 w-3"
                   src={i < 4 ? assets.star_icon : assets.star_dull_icon}
                 />
@@ -52,7 +53,7 @@ const ProductCard = ({ product }) => {
               }}
               className="text-primary"
             >
-              {!cartItems[product._id] ? (
+              {!cartItems?.[product._id] ? (
                 <button
                   className="flex items-center justify-center gap-1 bg-primary/10 border border-primary/40 md:w-[80px] w-[64px] h-[34px] rounded text-indigo-600 font-medium cursor-pointer"
                   onClick={() => addToCart(product._id)}
